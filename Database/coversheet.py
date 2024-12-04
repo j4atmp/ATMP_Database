@@ -1,9 +1,5 @@
 import streamlit as st
 import numpy as np
-# import joblib
-# from dataframe_conversion import df_converter
-# all_dfs = df_converter()
-# all_dfs = joblib.load('../all_dfs.pkl')
 
 def coversheet_creator(all_dfs, category, atmp):
 # ATMP Cover Sheet
@@ -13,9 +9,9 @@ def coversheet_creator(all_dfs, category, atmp):
 # WP 1
     # columns 31-51
 
-    # ATMP
+    # selected ATMP
     st.title(atmp, anchor=None, help=None)
-    # Cover Sheet
+    # Cover Sheet Tabs
     tab1, tab2, tab3 = st.tabs(['ATMP Cover Sheet', 'Regulatory Information', 'WP 1'])
 
     with tab1:
