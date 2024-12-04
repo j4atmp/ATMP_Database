@@ -1,4 +1,5 @@
 import streamlit as st
+import numpy as np
 # import joblib
 # from dataframe_conversion import df_converter
 # all_dfs = df_converter()
@@ -20,10 +21,12 @@ def coversheet_creator(all_dfs, category, atmp):
     with tab1:
         st.subheader('ATMP Cover Sheet')
         test = all_dfs[category][atmp].iloc[:,0:12].T
-        # test = test.drop(columns=[2,3,4])
+        
         test = test.reset_index()
         test.rename(columns={index : str(value) for index,value in enumerate(range(len(test.columns))) }, inplace=True)
         test.rename(columns={'0': 'Fields', 1: 'Values'}, inplace=True)
+        test = test.dropna(axis=1,how='all')
+        test.replace(np.nan, '', inplace=True)
         st.dataframe(test, hide_index=True, use_container_width=True, height=458)
 
     with tab2:
@@ -32,13 +35,16 @@ def coversheet_creator(all_dfs, category, atmp):
         test2 = test2.reset_index()
         test2.rename(columns={index : str(value) for index,value in enumerate(range(len(test2.columns))) }, inplace=True)
         test2.rename(columns={'0':'Fields' }, inplace=True)
+        test2 = test2.dropna(axis=1,how='all')
+        test2.replace(np.nan, '', inplace=True)
         st.dataframe(test2, hide_index=True, use_container_width=True, height=668)
 
     with tab3:
         st.subheader('WP 1')
         test3 = all_dfs[category][atmp].iloc[:,31:].T
-        # test3 = test3.drop(columns=[2,3,4])
         test3 = test3.reset_index()
         test3.rename(columns={index : str(value) for index,value in enumerate(range(len(test3.columns))) }, inplace=True)
         test3.rename(columns={'0': 'Fields'}, inplace=True)
+        test3 = test3.dropna(axis=1,how='all')
+        test3.replace(np.nan, '', inplace=True)
         st.dataframe(test3, hide_index=True, use_container_width=True, height=773)
