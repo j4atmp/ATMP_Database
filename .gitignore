@@ -161,3 +161,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 all_dfs.pkl
+
+# streamlit secrets
+secrets.toml
