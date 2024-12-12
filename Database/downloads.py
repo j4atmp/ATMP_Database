@@ -1,20 +1,27 @@
 import streamlit as st
-import joblib
 
-st.title('Download')
+st.title('Download Database')
 
-option = st.selectbox(
-    "Formats",
-    options=('CSV', 'EXCEL', 'PKL'),
+options = st.selectbox(
+    "Options",
+    options=('All', 'GTMP', 'TEP', 'sCTMP', 'cATMP'),
     index=None,
     placeholder="Choose an Option"
 )
 
-if option == 'PKL':
+formats = st.selectbox(
+    "Format",
+    options=('CSV', 'PKL'),
+    index=None,
+    placeholder="Choose an Option"
+)
+
+if formats == 'PKL' and options =='All':
     st.download_button(
         label="Download data as PKL",
         data='/..all_dfs.pkl',
         file_name="ATMPS.pkl",
     )
-elif option == 'CSV' or option == 'EXCEL':
+else:
     st.write('Not implemented yet!')
+    
