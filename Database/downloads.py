@@ -23,9 +23,6 @@ formats = st.selectbox(
     placeholder='Choose an Option'
 )
 
-"""
-Create Download Files and download options for CSV and Excel
-"""
 # CSV
 ## Donwload all ATMPS as CSV 
 if formats == 'CSV' and options == 'All':
