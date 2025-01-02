@@ -1,6 +1,10 @@
 # Donwload files
 *.zip
 all_dfs_csv/
+GTMP/
+TEP/
+sCTMP/
+cATMP/
 
 
 # Byte-compiled / optimized / DLL files
