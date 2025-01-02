@@ -110,6 +110,6 @@ elif formats == 'Excel' and options != 'All' and options != 'sCTMP' and options 
             )
                 
 # Not implmented yet!
-else:
+if options == 'sCTMP' or options == 'cATMP':
     st.write('Not implemented yet!')
     
