@@ -57,7 +57,7 @@ elif formats == 'CSV' and options != 'All' and options != 'sCTMP' and options !=
         if options == cat:
             with open(f'{cat}.zip', 'rb') as f:
                 btn_all_dfs_csv = st.download_button(
-                    label = f'Download all {cat} as CSV!',
+                    label = f'Download all {cat}s as CSV!',
                     data = f.read(),
                     file_name = f'{cat}.zip',
                     mime ='application/zip'
