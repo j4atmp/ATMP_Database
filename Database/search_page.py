@@ -1,8 +1,6 @@
 import streamlit as st
 import joblib
 
-st.title('GTMP')
-
 all_dfs = joblib.load('../all_dfs.pkl')
 
 cat_first = list(all_dfs.keys())[0]
