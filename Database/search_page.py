@@ -18,4 +18,7 @@ option = st.selectbox(
     placeholder="Choose a Field to search"
 )
 
+if option:
+    search_term = st.text_input(label='insert search term')
+
 st.write('Not implemented yet!')
