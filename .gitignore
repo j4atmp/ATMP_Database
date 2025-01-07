@@ -2,6 +2,8 @@
 downloads_csv/
 downloads_excel/
 
+# streamlit secrets
+secrets.toml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -168,3 +170,4 @@ cython_debug/
 
 # streamlit secrets
 secrets.toml
+Database/google.auth
