@@ -22,7 +22,7 @@ def list_bucket_objects(bucket_name, credentials_path):
     return [blob.name for blob in objects]
 
 def df_converter():
-    bucket_name = 'streamlit-j4tmp'
+    bucket_name = 'atmp_coversheets'
     credentials_path = 'google.auth'
     all_files = []
 
@@ -50,10 +50,10 @@ def df_converter():
 
     # extract categories from file_paths 
     for file_path in all_files:
-        tmp = file_path.split('/')[1]
+        tmp = file_path.split('/')[0]
         if tmp not in categories:
             categories.append(tmp)
-
+    print(categories)
     # create dataframes
     for category in categories:
         if category not in all_dfs.keys():
