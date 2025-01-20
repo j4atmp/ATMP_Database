@@ -16,7 +16,7 @@ def coversheet_creator(all_dfs, category, atmp):
     # columns 31-51
 
     # selected ATMP
-    st.title(atmp + f' [{all_dfs[category][atmp].iloc[:,56][1]}]', anchor=None, help=None)
+    st.title(atmp)
 
     # Donwload option as Excel
     buffer = io.BytesIO()
