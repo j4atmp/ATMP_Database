@@ -4,8 +4,9 @@ import shutil
 import os
 import pandas as pd
 
+path = os.path.join(os.getcwd(), "all_dfs.pkl")
 
-all_dfs = joblib.load('../all_dfs.pkl')
+all_dfs = joblib.load(path)
 
 
 st.title('Download Database')

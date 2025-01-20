@@ -1,10 +1,14 @@
 import streamlit as st
 import joblib
 from coversheet import coversheet_creator
-# C
+import os
+
+path = os.path.join(os.getcwd(), "all_dfs.pkl")
+
+# Cover Sheet for TEP
 st.title('TEP')
 # load the data
-all_dfs = joblib.load('../all_dfs.pkl')
+all_dfs = joblib.load(path)
 # get the list of all TEPs
 all_teps= list(all_dfs['TEP'].keys())
 all_teps.sort()

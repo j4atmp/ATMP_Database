@@ -2,7 +2,6 @@ import streamlit as st
 import joblib
 from coversheet import coversheet_creator
 import os
-# Get the current working directory
 
 path = os.path.join(os.getcwd(), "all_dfs.pkl")
 
