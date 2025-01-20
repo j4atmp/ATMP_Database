@@ -8,6 +8,7 @@ path = '/mount/src/atmp_database/Database/all_dfs.pkl'
 
 # Cover Sheet for GTMP
 st.title('GTMP')
+st.subheader(os.getcwd())
 # load the data
 all_dfs = joblib.load(path)
 # get the list of all GTMPs
