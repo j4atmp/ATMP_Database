@@ -5,8 +5,7 @@ import os
 # Get the current working directory
 current_dir = os.getcwd()
 
-path = os.path.join(current_dir, '..', 'all_dfs.pkl')
-path = os.path.abspath(path)
+path = 'all_dfs.pkl'
 
 # Cover Sheet for GTMP
 st.title('GTMP')
