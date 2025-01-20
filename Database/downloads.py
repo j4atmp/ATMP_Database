@@ -77,9 +77,10 @@ if formats == 'Excel' and options == 'All':
                 os.makedirs(f'downloads_excel/all_dfs_excel/{category}')
             # create Excels
             with pd.ExcelWriter(f'downloads_excel/all_dfs_excel/{category}/{atmp}.xlsx') as writer:  
-                all_dfs[category][atmp].iloc[:,0:12].T.to_excel(writer, sheet_name='ATMP Cover Sheet')
-                all_dfs[category][atmp].iloc[:,12:30].T.to_excel(writer, sheet_name='Regulatory Information')
-                all_dfs[category][atmp].iloc[:,31:].T.to_excel(writer, sheet_name='WP 1')
+                all_dfs[category][atmp].iloc[:,0:13].T.to_excel(writer, sheet_name='ATMP Cover Sheet')
+                all_dfs[category][atmp].iloc[:,14:33].T.to_excel(writer, sheet_name='Regulatory Information')
+                all_dfs[category][atmp].iloc[:,34:55].T.to_excel(writer, sheet_name='WP 1')
+                all_dfs[category][atmp].iloc[:,56:].T.to_excel(writer, sheet_name='Status Information')
     # create Zip
     shutil.make_archive('downloads_excel/all_dfs_excel'.replace('.zip', ''), 'zip', 'downloads_excel/all_dfs_excel')
     # Donwload zip archive
@@ -99,9 +100,10 @@ elif formats == 'Excel' and options != 'All' and options != 'sCTMP' and options 
         # create Excels    
         for atmp in all_dfs[cat]:
             with pd.ExcelWriter(f'downloads_excel/{cat}/{atmp}.xlsx') as writer:  
-                all_dfs[cat][atmp].iloc[:,0:12].T.to_excel(writer, sheet_name='ATMP Cover Sheet')
-                all_dfs[cat][atmp].iloc[:,12:30].T.to_excel(writer, sheet_name='Regulatory Information')
-                all_dfs[cat][atmp].iloc[:,31:].T.to_excel(writer, sheet_name='WP 1')
+                all_dfs[cat][atmp].iloc[:,0:13].T.to_excel(writer, sheet_name='ATMP Cover Sheet')
+                all_dfs[cat][atmp].iloc[:,14:33].T.to_excel(writer, sheet_name='Regulatory Information')
+                all_dfs[cat][atmp].iloc[:,34:55].T.to_excel(writer, sheet_name='WP 1')
+                all_dfs[cat][atmp].iloc[:,56:].T.to_excel(writer, sheet_name='Status Information')
         # create Zip
         shutil.make_archive(f'downloads_excel/{cat}'.replace('.zip', ''), 'zip', f'downloads_excel/{cat}')
         # Donwload zip archive
