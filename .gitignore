@@ -168,6 +168,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# streamlit secrets
+# streamlit/google secrets
 secrets.toml
-Database/google.auth
+google.auth
+google_drive_secrets.json
+token.json
