@@ -3,9 +3,8 @@ import joblib
 from coversheet import coversheet_creator
 import os
 # Get the current working directory
-current_dir = os.getcwd()
 
-path = 'all_dfs.pkl'
+path = '/mount/src/atmp_database/Database/all_dfs.pkl'
 
 # Cover Sheet for GTMP
 st.title('GTMP')
