@@ -4,6 +4,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaIoBaseDownload
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/drive"]
@@ -63,6 +64,7 @@ def download_google_sheets(service, parent_folder_name, subfolder_name):
         with open(file_path, "wb") as f:
             f.write(request.execute())
         print(f"Downloaded: {file_name} to {folder_path}")
+from googleapiclient.http import MediaIoBaseDownload
 
 def main():
     creds = authenticate_drive()
@@ -75,3 +77,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print("Download complete.")
+    os.chdir("..")
+    print("Converting to DataFrame...")
+    command = "python dataframe_conversion.py"
+    os.system(command)  
