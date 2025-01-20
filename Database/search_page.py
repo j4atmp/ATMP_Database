@@ -1,7 +1,10 @@
 import streamlit as st
 import joblib
+import os
 
-all_dfs = joblib.load('../all_dfs.pkl')
+path = os.path.join(os.getcwd(), "all_dfs.pkl")
+
+all_dfs = joblib.load(path)
 
 cat_first = list(all_dfs.keys())[0]
 atmp_first = list(all_dfs[cat_first].keys())[0]

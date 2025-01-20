@@ -7,7 +7,6 @@ path = os.path.join(os.getcwd(), "all_dfs.pkl")
 
 # Cover Sheet for GTMP
 st.title('GTMP')
-st.subheader(path)
 # load the data
 all_dfs = joblib.load(path)
 # get the list of all GTMPs
