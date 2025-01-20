@@ -2,8 +2,10 @@ import streamlit as st
 import joblib
 from coversheet import coversheet_creator
 import os
+# Get the current working directory
+current_dir = os.getcwd()
 
-path = os.path.join(os.path.dirname(__file__), '..', 'all_dfs.pkl')
+path = os.path.join(current_dir, '..', 'all_dfs.pkl')
 
 # Cover Sheet for GTMP
 st.title('GTMP')
