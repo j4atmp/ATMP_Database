@@ -6,6 +6,7 @@ import os
 current_dir = os.getcwd()
 
 path = os.path.join(current_dir, '..', 'all_dfs.pkl')
+path = os.path.abspath(relative_path)
 
 # Cover Sheet for GTMP
 st.title('GTMP')
