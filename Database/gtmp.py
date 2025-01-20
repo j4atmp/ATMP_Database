@@ -1,11 +1,14 @@
 import streamlit as st
 import joblib
 from coversheet import coversheet_creator
+import os
+
+path = os.path.join(os.path.dirname(__file__), '..', 'all_dfs.pkl')
 
 # Cover Sheet for GTMP
 st.title('GTMP')
 # load the data
-all_dfs = joblib.load('../all_dfs.pkl')
+all_dfs = joblib.load(path)
 # get the list of all GTMPs
 all_gtmps = list(all_dfs['GTMP'].keys())
 all_gtmps.sort()
