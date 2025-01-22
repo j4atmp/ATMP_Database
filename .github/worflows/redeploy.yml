@@ -2,7 +2,7 @@ name: Streamlit Auto-Restart
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs once a day at midnight UTC
+    - cron: '10 9 * * *'  # Runs once a day at midnight UTC
   workflow_dispatch:  # Allows manual triggers
 
 jobs:
