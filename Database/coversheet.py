@@ -34,7 +34,7 @@ def coversheet_creator(all_dfs, category, atmp):
         )
 
     # Cover Sheet Tabs
-    tab1, tab2, tab3, tab4 = st.tabs(['ATMP Cover Sheet', 'Regulatory Information', 'WP 1', 'Status'])
+    tab1, tab2, tab3, tab4 = st.tabs(['ATMP Cover Sheet', 'Regulatory Information', 'WP 1', 'Review Status'])
 
     with tab1:
         # Tab for ATMP Cover Sheet
