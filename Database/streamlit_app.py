@@ -3,6 +3,7 @@ import streamlit as st
 title_page = st.Page("title_page.py", title="Home", icon=":material/home:")
 
 # ATMPs
+template = st.Page("example.py", title="Cover Sheet Example", icon=":material/dataset:")
 gtmp = st.Page("gtmp.py", title="GTMP", icon=":material/dataset:")
 tep = st.Page("tep.py", title="TEP", icon=":material/dataset:")
 sCTMP = st.Page("sCTMP.py", title="sCTMP", icon=":material/dataset:")
