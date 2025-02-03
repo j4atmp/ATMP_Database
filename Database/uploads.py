@@ -16,6 +16,31 @@ all_dfs = joblib.load(path_dataframes)
 all_gtmps = list(all_dfs['GTMP'].keys())
 all_gtmps.sort()
 
+st.markdown('''
+    For uploading ATMP-Sheets you need a User login.   
+    If you have no User Login there are two options:
+            
+        1. send Email with the ATMP 
+        2. or send Email to register for a user*
+    to j4atmp@gmail.com.
+    
+    **:red[Please always use the Template Format and do not change it!!!]**
+    
+    *here you need to state your affiliation to J4ATMP and Personal Information.
+    ''')
+
+
+st.subheader('Cover Sheet Example (as Template)')
+
+file = 'Database/ATM_Cover_Sheet_Example.xlsx'
+
+with open(file, 'rb') as my_file:
+    st.download_button(label = ':arrow_down: Download Template Excel file', 
+    data = my_file, 
+    file_name = 'ATMP_Cover_Sheet_Example.xlsx', 
+    mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')      
+
+
 if not check_password():
     st.stop()
 
