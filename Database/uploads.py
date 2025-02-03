@@ -13,8 +13,6 @@ path_coversheets = os.path.join(os.getcwd(), "ATMP Sheets")
 st.title('Upload ATMP-Sheet')
 # load the data
 all_dfs = joblib.load(path_dataframes)
-all_gtmps = list(all_dfs['GTMP'].keys())
-all_gtmps.sort()
 
 st.markdown('''
     For uploading ATMP-Sheets you need a User login.   
@@ -47,7 +45,7 @@ if not check_password():
 
 category = st.selectbox(
     "Choose ATMP category",
-    options=['GTMP', 'TEP'],
+    options=['GTMP', 'TEP', 'sCTMP','cATMP'],
     index=None,
     placeholder="GTMP"
 )
@@ -63,6 +61,10 @@ if category is not None:
         data_upload = data_upload.T
         data_upload = data_upload.drop(columns=np.nan)
         adata_upload_id = data_upload[data_upload.columns[0]].iloc[0]
+        if category in all_dfs.keys():
+            continue
+        else:
+            all_dfs[category] = dict()
         all_dfs[category][adata_upload_id] = data_upload
 
         joblib.dump(all_dfs, 'all_dfs.pkl')
