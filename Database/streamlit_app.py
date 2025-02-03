@@ -3,7 +3,6 @@ import streamlit as st
 title_page = st.Page("title_page.py", title="Home", icon=":material/home:")
 
 # pages
-template = st.Page("example.py", title="Cover Sheet Example", icon=":material/dataset:")
 gtmp = st.Page("gtmp.py", title="GTMP", icon=":material/dataset:")
 tep = st.Page("tep.py", title="TEP", icon=":material/dataset:")
 sCTMP = st.Page("sCTMP.py", title="sCTMP", icon=":material/dataset:")
@@ -14,6 +13,6 @@ download_page = st.Page("downloads.py", title="Download", icon=":material/downlo
 help_page = st.Page("help_page.py", title="Help", icon=":material/help:")
 upload_page = st.Page("uploads.py", title="Upload", icon=":material/upload:")
 
-pg = st.navigation([title_page, template, gtmp, tep, sCTMP, cATMP, search_page, download_page,upload_page, help_page])
+pg = st.navigation([title_page, gtmp, tep, sCTMP, cATMP, search_page, download_page,upload_page, help_page])
 st.set_page_config(page_title="ATMP Database", page_icon=":material/menu:")
 pg.run()
