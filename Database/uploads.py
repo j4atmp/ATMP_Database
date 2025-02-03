@@ -34,15 +34,14 @@ if category is not None:
     )
 
     for uploaded_file in uploaded_files:
-        tmp = pd.read_excel(uploaded_file, skiprows=(0, 14, 35), header=None, index_col=0)
-        tmp = tmp.T
-        tmp = tmp.drop(columns=np.nan)
-        atmp_id = tmp[tmp.columns[0]].iloc[0]
-       
-        all_dfs[category][atmp_id] = tmp
+        data_upload = pd.read_excel(uploaded_file, skiprows=(0, 14, 35), header=None, index_col=0)
+        data_upload = data_upload.T
+        data_upload = data_upload.drop(columns=np.nan)
+        adata_upload_id = data_upload[data_upload.columns[0]].iloc[0]
+        all_dfs[category][adata_upload_id] = data_upload
 
         joblib.dump(all_dfs, 'all_dfs.pkl')
-
+        
 
 
           
