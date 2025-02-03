@@ -1,6 +1,4 @@
 import streamlit as st
-import joblib
-from coversheet import coversheet_creator
 
 st.title('Cover Sheet Example (as Template)')
 
