@@ -4,7 +4,6 @@ import os
 import pandas as pd
 import numpy as np
 from checkpassword import check_password
-from coversheet import coversheet_creator
 
 
 path_dataframes = os.path.join(os.getcwd(), "all_dfs.pkl")
