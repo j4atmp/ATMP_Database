@@ -1,18 +1,15 @@
 import streamlit as st
-import os
 from coversheet import coversheet_creator
 from streamlit_gsheets import GSheetsConnection
 
-
 CHUNK_SIZE = 60
-ATMP_CATEGORY = 14 # [ATMP_CATEGORY][1] == Category_Value
+ATMP_CATEGORY = 14 # chunk.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # catmp.iloc[ATMP_ID][1] == ID_Value
 catmps = []
 
+# connect to Master sheet on Google Drive
 conn = st.connection("gsheets", type=GSheetsConnection)
 df_master = conn.read()
-
-path = os.path.join(os.getcwd(), "all_dfs.pkl")
 
 # Cover Sheet for cATMP
 st.title('cATMP')
@@ -40,6 +37,6 @@ if len(catmps) > 0 :
     # create the coversheet for the selected catmp
     for catmp in catmps:
         if option == str(catmp.iloc[ATMP_ID][1]):
-            coversheet_creator(catmp, category='cATMP')
+            coversheet_creator(catmp)
 else:
     st.write('Nothing here yet!')

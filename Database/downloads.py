@@ -1,13 +1,22 @@
 import streamlit as st
-import joblib
 import shutil
 import os
 import pandas as pd
+from streamlit_gsheets import GSheetsConnection
+from df_preprocessing import data_processing
 
-path = os.path.join(os.getcwd(), "all_dfs.pkl")
+CHUNK_SIZE = 60
+ATMP_CATEGORY = 14 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
+ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
 
-all_dfs = joblib.load(path)
+# connect to Master sheet on Google Drive
+conn = st.connection("gsheets", type=GSheetsConnection)
+df_master = conn.read()
 
+# load the data
+all_dfs = df_master.copy()
+# create chunks with size 60
+all_dfs_chunks = [all_dfs.iloc[i:i + CHUNK_SIZE] for i in range(0, len(all_dfs), CHUNK_SIZE)]
 
 st.title('Download Database')
 
@@ -18,70 +27,23 @@ options = st.selectbox(
     placeholder='Choose an Option'
 )
 
-formats = st.selectbox(
-    'Format',
-    options=('CSV', 'Excel'),
-    index=None,
-    placeholder='Choose an Option'
-)
-
-# CSV
-## Donwload all ATMPS as CSV 
-if formats == 'CSV' and options == 'All':
-    # create dirs with all atmps
-    if not os.path.isdir('downloads_csv/all_dfs_csv'):
-        os.makedirs('downloads_csv/all_dfs_csv')
-    for category in all_dfs.keys():
-        for atmp in all_dfs[category]:
-            if not os.path.isdir(f'downloads_csv/all_dfs_csv/{category}'):
-                os.makedirs(f'downloads_csv/all_dfs_csv/{category}')
-            all_dfs[category][atmp].to_csv(f'downloads_csv/all_dfs_csv/{category}/{atmp}.csv')
-    # create Zip
-    shutil.make_archive('downloads_csv/all_dfs_csv'.replace('.zip', ''), 'zip', 'downloads_csv/all_dfs_csv')
-    # Donwload zip archive
-    with open('downloads_csv/all_dfs_csv.zip', 'rb') as f:
-        btn_all_dfs_csv = st.download_button(
-            label = 'Download all ATMPs as CSV',
-            data = f.read(),
-            file_name = 'All_ATMPs_CSV.zip',
-            mime ='application/zip'
-    )
-## Donwload single ATMPS as CSV 
-elif formats == 'CSV' and options != 'All' and options != 'sCTMP' and options != 'cATMP':
-    # create dir for selected atmp
-    for cat in all_dfs.keys():
-        if not os.path.isdir(f'downloads_csv/{cat}'):
-            os.makedirs(f'downloads_csv/{cat}')
-        for atmp in all_dfs[cat]:
-            all_dfs[cat][atmp].to_csv(f'downloads_csv/{cat}/{atmp}.csv', index=False)
-        # create Zip
-        shutil.make_archive(f'downloads_csv/{cat}'.replace('.zip', ''), 'zip', f'downloads_csv/{cat}')
-        # Donwload zip archive
-        if options == cat:
-            with open(f'downloads_csv/{cat}.zip', 'rb') as f:
-                btn_all_cat_csv = st.download_button(
-                    label = f'Download all {cat}s as CSV',
-                    data = f.read(),
-                    file_name = f'{cat}_csv.zip',
-                    mime ='application/zip'
-            )
-
 # Excel
 ## Donwload all ATMPS as Excel 
-if formats == 'Excel' and options == 'All':
+if options == 'All':
     # create dirs with all atmps
     if not os.path.isdir('downloads_excel/all_dfs_excel'):
         os.makedirs('downloads_excel/all_dfs_excel')
-    for category in all_dfs.keys():
-        for atmp in all_dfs[category]:
-            if not os.path.isdir(f'downloads_excel/all_dfs_excel/{category}'):
-                os.makedirs(f'downloads_excel/all_dfs_excel/{category}')
-            # create Excels
-            with pd.ExcelWriter(f'downloads_excel/all_dfs_excel/{category}/{atmp}.xlsx') as writer:  
-                all_dfs[category][atmp].iloc[:,0:13].T.to_excel(writer, sheet_name='ATMP Cover Sheet')
-                all_dfs[category][atmp].iloc[:,14:33].T.to_excel(writer, sheet_name='Regulatory Information')
-                all_dfs[category][atmp].iloc[:,34:55].T.to_excel(writer, sheet_name='WP 1')
-                all_dfs[category][atmp].iloc[:,56:].T.to_excel(writer, sheet_name='Status Information')
+    for atmp in all_dfs_chunks:
+        category = str(atmp.iloc[ATMP_CATEGORY][1])
+        if not os.path.isdir(f'downloads_excel/all_dfs_excel/{category}'):
+            os.makedirs(f'downloads_excel/all_dfs_excel/{category}')
+        # create Excels
+        with pd.ExcelWriter(f'downloads_excel/all_dfs_excel/{category}/{atmp.iloc[ATMP_ID][1]}.xlsx') as writer:  
+            data_processing(atmp.iloc[1:14]).to_excel(writer, sheet_name='ATMP Cover Sheet', index=False)
+            data_processing(atmp.iloc[16:35]).to_excel(writer, sheet_name='Regulatory Information', index=False)
+            data_processing(atmp.iloc[36:57]).to_excel(writer, sheet_name='WP 1', index=False)
+            data_processing(atmp.iloc[58:,:2]).to_excel(writer, sheet_name='Review Status Information', index=False)
+            writer.close()
     # create Zip
     shutil.make_archive('downloads_excel/all_dfs_excel'.replace('.zip', ''), 'zip', 'downloads_excel/all_dfs_excel')
     # Donwload zip archive
@@ -92,30 +54,41 @@ if formats == 'Excel' and options == 'All':
             file_name = 'All_ATMPs_Excel.zip',
             mime ='application/zip'
     )
+    if os.path.isdir('downloads_excel'):
+            shutil.rmtree('downloads_excel')
 ## Donwload single ATMPS as Excel 
-elif formats == 'Excel' and options != 'All' and options != 'sCTMP' and options != 'cATMP':
+elif options != 'All' and options != 'sCTMP' and options != 'cATMP':
+    # filter for selected ATMPs
+    tmp_atmps = []
+    for chunk in all_dfs_chunks:
+        if chunk.iloc[ATMP_CATEGORY][1] == options:
+            tmp_atmps.append(chunk)
+
     # create dir for selected atmp
-    for cat in all_dfs.keys():
-        if not os.path.isdir(f'downloads_excel/{cat}'):
-            os.makedirs(f'downloads_excel/{cat}')
-        # create Excels    
-        for atmp in all_dfs[cat]:
-            with pd.ExcelWriter(f'downloads_excel/{cat}/{atmp}.xlsx') as writer:  
-                all_dfs[cat][atmp].iloc[:,0:13].T.to_excel(writer, sheet_name='ATMP Cover Sheet')
-                all_dfs[cat][atmp].iloc[:,14:33].T.to_excel(writer, sheet_name='Regulatory Information')
-                all_dfs[cat][atmp].iloc[:,34:55].T.to_excel(writer, sheet_name='WP 1')
-                all_dfs[cat][atmp].iloc[:,56:].T.to_excel(writer, sheet_name='Status Information')
-        # create Zip
-        shutil.make_archive(f'downloads_excel/{cat}'.replace('.zip', ''), 'zip', f'downloads_excel/{cat}')
-        # Donwload zip archive
-        if options == cat:
-            with open(f'downloads_excel/{cat}.zip', 'rb') as f:
-                btn_all_cat_excel = st.download_button(
-                    label = f'Download all {cat}s as Excel',
-                    data = f.read(),
-                    file_name = f'{cat}_excel.zip',
-                    mime ='application/zip'
-            )
+    cat = str(options)
+    if not os.path.isdir(f'downloads_excel/{cat}'):
+        os.makedirs(f'downloads_excel/{cat}')
+    # create Excels    
+    for atmp in tmp_atmps:
+        with pd.ExcelWriter(f'downloads_excel/{cat}/{atmp.iloc[ATMP_ID][1]}.xlsx') as writer:  
+            data_processing(atmp.iloc[1:14]).to_excel(writer, sheet_name='ATMP Cover Sheet', index=False)
+            data_processing(atmp.iloc[16:35]).to_excel(writer, sheet_name='Regulatory Information', index=False)
+            data_processing(atmp.iloc[36:57]).to_excel(writer, sheet_name='WP 1', index=False)
+            data_processing(atmp.iloc[58:,:2]).to_excel(writer, sheet_name='Review Status Information', index=False)
+            writer.close()
+    # create Zip
+    shutil.make_archive(f'downloads_excel/{cat}'.replace('.zip', ''), 'zip', f'downloads_excel/{cat}')
+    # Donwload zip archive
+    if options == cat:
+        with open(f'downloads_excel/{cat}.zip', 'rb') as f:
+            btn_all_cat_excel = st.download_button(
+                label = f'Download all {cat}s as Excel',
+                data = f.read(),
+                file_name = f'{cat}_excel.zip',
+                mime ='application/zip'
+        )
+        if os.path.isdir('downloads_excel'):
+            shutil.rmtree('downloads_excel')
                 
 # Not implmented yet!
 if options == 'sCTMP' or options == 'cATMP':
