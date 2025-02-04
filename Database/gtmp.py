@@ -10,7 +10,7 @@ st.title('GTMP')
 # load the data
 all_dfs = joblib.load(path)
 
-if 'cATMP' in all_dfs.keys():
+if 'GTMP' in all_dfs.keys():
     # get the list of all GTMPs
     all_gtmps = list(all_dfs['GTMP'].keys())
     all_gtmps.sort()

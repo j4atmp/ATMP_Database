@@ -10,7 +10,7 @@ st.title('TEP')
 # load the data
 all_dfs = joblib.load(path)
 
-if 'cATMP' in all_dfs.keys():
+if 'TEP' in all_dfs.keys():
     # get the list of all TEPs
     all_teps= list(all_dfs['TEP'].keys())
     all_teps.sort()
