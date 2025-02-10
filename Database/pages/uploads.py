@@ -3,7 +3,7 @@ import joblib
 import os
 import pandas as pd
 import numpy as np
-from checkpassword import check_password
+from utilities import check_password
 
 
 path_dataframes = os.path.join(os.getcwd(), "all_dfs.pkl")

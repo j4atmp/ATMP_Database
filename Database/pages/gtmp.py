@@ -1,5 +1,5 @@
 import streamlit as st
-from coversheet import coversheet_creator
+from utilities import coversheet_creator
 from streamlit_gsheets import GSheetsConnection
 
 CHUNK_SIZE = 60
