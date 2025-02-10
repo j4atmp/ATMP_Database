@@ -29,7 +29,7 @@ st.markdown('''
 
 st.subheader('Cover Sheet Example (as Template)')
 
-file = 'Database/ATM_Cover_Sheet_Example.xlsx'
+file = 'Database/pages/ATM_Cover_Sheet_Example.xlsx'
 
 with open(file, 'rb') as my_file:
     st.download_button(label = ':arrow_down: Download Template Excel file', 
