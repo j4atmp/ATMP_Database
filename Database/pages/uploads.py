@@ -66,7 +66,10 @@ uploaded_files = st.file_uploader(
 )
 
 new_df = all_dfs.copy()
-tmp_dfs = []
+tmp_dfs_new_ATMPS = []
+tmp_dfs_update_ATMPS = []
+
+
 
 for uploaded_file in uploaded_files:
     data_upload = pd.read_excel(uploaded_file, header=None)
@@ -76,19 +79,29 @@ for uploaded_file in uploaded_files:
         # check if all fileds are the same and in the same order as in the template
         if list(data_upload[0]) == list(template[0]):
             # load uploaded files into tmp list
-            tmp_dfs.append(data_upload)
+            tmp_dfs_new_ATMPS.append(data_upload)
             st.markdown(f'**:green[{uploaded_file.name}]** no Errors found!')
         else:
             st.markdown(f'File format for **:red[{uploaded_file.name}]** is **not correct**! Please check with Cover Sheet Example!')  
     else:
-        st.markdown(f'ATMP **:red[{uploaded_file.name}]** already exists!')     
+        # update ATMP
+        st.markdown(f'ATMP **:red[{uploaded_file.name}]** already exists!')
+        tmp_dfs_update_ATMPS.append(data_upload)
+
+
 
 # check if there are files with correct format 
-if len(tmp_dfs) > 0:
-    upload_button = st.button('Upload all correct ATMP-Files!')  
+if len(tmp_dfs_new_ATMPS) > 0:
+    upload_button = st.button('Upload all correct new ATMPs!')  
     if upload_button:
-        for new_atmp_file in tmp_dfs:
-            # change colums of new_atmp_df to match current columns
+        for new_atmp_file in tmp_dfs_new_ATMPS:
+            # change colums to match each other
+            if len(new_atmp_file.columns) > len(all_dfs.columns):
+                for i in range(len(new_atmp_file.columns) - len(all_dfs.columns)):
+                    all_dfs[f'New_Col_{i+1}'] = None  # Adds empty (NaN) columns
+            else:
+                for i in range(len(all_dfs.columns) - len(new_atmp_file.columns)):
+                    new_atmp_file[f'Unnamed: {i+1}'] = None  # Adds empty (NaN) columns
             new_atmp_file.columns = all_dfs.columns
             # append new_atmp_df to current atmp_df
             new_df = pd.concat([new_df, new_atmp_file], ignore_index=True)
