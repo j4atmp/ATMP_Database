@@ -73,24 +73,30 @@ tmp_dfs_update_ATMPS = []
 
 for uploaded_file in uploaded_files:
     data_upload = pd.read_excel(uploaded_file, header=None)
-
-    # check if the ATMPs are already in the master file
-    if data_upload.iloc[ATMP_ID][1] not in Current_Atmps:
-        # check if all fileds are the same and in the same order as in the template
-        if list(data_upload[0]) == list(template[0]):
+    
+    # check if there are less than two columns => no new content as column 1 are the fields
+    if len(data_upload.columns) < 2:
+        st.markdown(f'ATMP **:red[{uploaded_file.name}]** doesn`t contain content!')
+    # check if all fileds are the same and in the same order as in the template
+    elif [s.rstrip() for s in list(data_upload[0])] == [s.rstrip() for s in list(template[0])]:
+        st.markdown(f'**:green[{uploaded_file.name}]** no Errors found!')
+        # check if the ATMPs are already in the master file
+        if data_upload.iloc[ATMP_ID][1] not in Current_Atmps:
             # load uploaded files into tmp list
             tmp_dfs_new_ATMPS.append(data_upload)
-            st.markdown(f'**:green[{uploaded_file.name}]** no Errors found!')
-        else:
-            st.markdown(f'File format for **:red[{uploaded_file.name}]** is **not correct**! Please check with Cover Sheet Example!')  
-    else:
         # update ATMP
-        st.markdown(f'ATMP **:red[{uploaded_file.name}]** already exists!')
-        tmp_dfs_update_ATMPS.append(data_upload)
+        else:
+            st.markdown(f'ATMP **:red[{uploaded_file.name}]** already exists!')
+            # load uploaded files into tmp list for updates
+            tmp_dfs_update_ATMPS.append(data_upload)
+    else:
+        st.markdown(f'File format for **:red[{uploaded_file.name}]** is **not correct**! Please check with Cover Sheet Example!') 
 
+# Update ATMPs         
+if len(tmp_dfs_update_ATMPS) > 0:
+        pass
 
-
-# check if there are files with correct format 
+# Upload new ATMPs
 if len(tmp_dfs_new_ATMPS) > 0:
     upload_button = st.button('Upload all correct new ATMPs!')  
     if upload_button:
