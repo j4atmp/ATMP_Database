@@ -87,8 +87,8 @@ with col2:
             vote1()
         
 # Check for WP1 User
-# if not check_password():
-#     st.stop()
+if not check_password():
+    st.stop()
 
 st.subheader('Upload Options')
 
