@@ -7,7 +7,7 @@ from utilities import check_password, upload_atmp, update_atmp
 CHUNK_SIZE = 60
 ATMP_CATEGORY = 14 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
-file = 'Database/pages/ATM_Cover_Sheet_Template.xlsx'
+file = 'Database/pages/ATMP_Cover_Sheet_Template.xlsx'
 # template = pd.read_excel(file, header=None)
 
 # connect to Master sheet on Google Drive
@@ -75,29 +75,19 @@ def vote1():
 col1, col2 = st.columns(2)
 
 with col1:
-    # with open(file, 'rb') as my_file:
-    #     st.download_button(label = ':arrow_down: Download Template Excel file', 
-    #     data = my_file, 
-    #     file_name = 'ATMP_Cover_Sheet_Example.xlsx', 
-    #     mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    buffer = io.BytesIO()
-    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-        template['FIELDS'].to_excel(writer, index=False, header=False)
-        writer.close()
-        st.download_button(
-                label = ':arrow_down: Download Template Excel file',
-                data = buffer,
-                file_name = 'ATMP_Cover_Sheet_Template.xlsx',
-                mime='application/vnd.ms-excel'
-        ) 
+    with open(file, 'rb') as my_file:
+        st.download_button(label = ':arrow_down: Download Template Excel file', 
+        data = my_file, 
+        file_name = 'ATMP_Cover_Sheet_Template.xlsx', 
+        mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 with col2:
     if "vote1" not in st.session_state:
         if st.button('ATMP Templates in Database'):
             vote1()
         
 # Check for WP1 User
-if not check_password():
-    st.stop()
+# if not check_password():
+#     st.stop()
 
 st.subheader('Upload Options')
 
