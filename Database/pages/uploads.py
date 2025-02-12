@@ -1,14 +1,14 @@
 import streamlit as st
-import joblib
-import os
 import pandas as pd
-import numpy as np
+import io
 from streamlit_gsheets import GSheetsConnection
-from utilities import check_password
+from utilities import check_password, upload_atmp, update_atmp
 
 CHUNK_SIZE = 60
 ATMP_CATEGORY = 14 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
+file = 'Database/pages/ATM_Cover_Sheet_Template.xlsx'
+# template = pd.read_excel(file, header=None)
 
 # connect to Master sheet on Google Drive
 conn = st.connection("gsheets", type=GSheetsConnection)
@@ -22,7 +22,7 @@ st.title('Upload ATMP-Sheet')
 # load the data
 
 st.markdown('''
-    For uploading ATMP-Sheets you need the WP1 User.   
+    For uploading/updating ATMP-Sheets you need the WP1 User.   
     If you don't have a WP1 User for login there are two options:
             
         1. send an Email with the ATMP* 
@@ -35,82 +35,96 @@ st.markdown('''
     
     ''')
 
-
-st.subheader('Cover Sheet Example (as Template)')
-
-file = 'Database/pages/ATM_Cover_Sheet_Example.xlsx'
-
-with open(file, 'rb') as my_file:
-    st.download_button(label = ':arrow_down: Download Template Excel file', 
-    data = my_file, 
-    file_name = 'ATMP_Cover_Sheet_Example.xlsx', 
-    mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')      
-
-template = pd.read_excel(file, header=None)
-
 # create list of current ATMP IDs
 Current_Atmps = set()
 for chunk in all_dfs_chunks:
     if chunk.iloc[ATMP_ID][1] not in Current_Atmps:
         Current_Atmps.add(chunk.iloc[ATMP_ID][1])
 
+template = all_dfs_chunks[0]
+
+st.subheader('Cover Sheet Example (as Template)')
+
+st.markdown('''
+    - For uploading new ATMPs we suggest to download and use the **Template Excel file**.
+    - For updating exsiting ATMPs we suggest to download the current specific **ATMP Excel Template** from the Database.
+    ''')
+
+@st.dialog("Cast your vote")
+def vote1():
+    option = st.selectbox(
+        "GTMP List",
+        options=Current_Atmps,
+        index=None,
+        placeholder="Choose an ATMP"
+    )
+    if option:
+        for chunk in all_dfs_chunks:
+            if chunk.iloc[ATMP_ID][1] == option:
+                buffer = io.BytesIO()
+                with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                    chunk.to_excel(writer, index=False, header=False)
+                    writer.close()
+                    st.download_button(
+                            label = 'Download as Excel',
+                            data = buffer,
+                            file_name = f'{option}.xlsx',
+                            mime='application/vnd.ms-excel'
+                    )
+
+col1, col2 = st.columns(2)
+
+with col1:
+    # with open(file, 'rb') as my_file:
+    #     st.download_button(label = ':arrow_down: Download Template Excel file', 
+    #     data = my_file, 
+    #     file_name = 'ATMP_Cover_Sheet_Example.xlsx', 
+    #     mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        template['FIELDS'].to_excel(writer, index=False, header=False)
+        writer.close()
+        st.download_button(
+                label = ':arrow_down: Download Template Excel file',
+                data = buffer,
+                file_name = 'ATMP_Cover_Sheet_Template.xlsx',
+                mime='application/vnd.ms-excel'
+        ) 
+with col2:
+    if "vote1" not in st.session_state:
+        if st.button('ATMP Templates in Database'):
+            vote1()
+        
 # Check for WP1 User
 if not check_password():
     st.stop()
 
+st.subheader('Upload Options')
 
-uploaded_files = st.file_uploader(
-    "Choose an ATMP in the right Format (see Cover Sheet Example)", 
-    accept_multiple_files=True,
-    type = 'xlsx'
-)
+st.markdown('''
+    - For uploading new ATMPs please use the **Upload** button.
+    - For updating exsiting ATMPs please use the **Update** button.
+    ''')
 
-new_df = all_dfs.copy()
-tmp_dfs_new_ATMPS = []
-tmp_dfs_update_ATMPS = []
+@st.dialog("Cast your vote")
+def vote2(item):
+    uploaded_files = st.file_uploader(
+        "Choose an ATMP in the right Format (see Cover Sheet Example)", 
+        accept_multiple_files=True,
+        type = 'xlsx'
+        )
+    if item == 'A':
+        upload_atmp(uploaded_files, Current_Atmps, all_dfs, template, conn)
+    if item == 'B':
+        update_atmp(uploaded_files, Current_Atmps, all_dfs, all_dfs_chunks, template, conn)
 
+col3, col4 = st.columns(2)
 
+if "vote2" not in st.session_state:
+    with col3:
+        if st.button(':arrow_up: Upload new ATMPs'):
+            vote2('A')
+    with col4:
+        if st.button(':arrow_up: Update current ATMPs'):
+            vote2('B')
 
-for uploaded_file in uploaded_files:
-    data_upload = pd.read_excel(uploaded_file, header=None)
-    
-    # check if there are less than two columns => no new content as column 1 are the fields
-    if len(data_upload.columns) < 2:
-        st.markdown(f'ATMP **:red[{uploaded_file.name}]** doesn`t contain content!')
-    # check if all fileds are the same and in the same order as in the template
-    elif [s.rstrip() for s in list(data_upload[0])] == [s.rstrip() for s in list(template[0])]:
-        st.markdown(f'**:green[{uploaded_file.name}]** no Errors found!')
-        # check if the ATMPs are already in the master file
-        if data_upload.iloc[ATMP_ID][1] not in Current_Atmps:
-            # load uploaded files into tmp list
-            tmp_dfs_new_ATMPS.append(data_upload)
-        # update ATMP
-        else:
-            st.markdown(f'ATMP **:red[{uploaded_file.name}]** already exists!')
-            # load uploaded files into tmp list for updates
-            tmp_dfs_update_ATMPS.append(data_upload)
-    else:
-        st.markdown(f'File format for **:red[{uploaded_file.name}]** is **not correct**! Please check with Cover Sheet Example!') 
-
-# Update ATMPs         
-if len(tmp_dfs_update_ATMPS) > 0:
-        pass
-
-# Upload new ATMPs
-if len(tmp_dfs_new_ATMPS) > 0:
-    upload_button = st.button('Upload all correct new ATMPs!')  
-    if upload_button:
-        for new_atmp_file in tmp_dfs_new_ATMPS:
-            # change colums to match each other
-            if len(new_atmp_file.columns) > len(all_dfs.columns):
-                for i in range(len(new_atmp_file.columns) - len(all_dfs.columns)):
-                    all_dfs[f'New_Col_{i+1}'] = None  # Adds empty (NaN) columns
-            else:
-                for i in range(len(all_dfs.columns) - len(new_atmp_file.columns)):
-                    new_atmp_file[f'Unnamed: {i+1}'] = None  # Adds empty (NaN) columns
-            new_atmp_file.columns = all_dfs.columns
-            # append new_atmp_df to current atmp_df
-            new_df = pd.concat([new_df, new_atmp_file], ignore_index=True)
-        # update masterfile
-        conn.update(data=new_df)
-        st.write("Upload successful!")

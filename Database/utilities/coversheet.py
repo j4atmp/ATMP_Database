@@ -20,7 +20,7 @@ def coversheet_creator(atmp):
         data_processing(atmp.iloc[36:57]).to_excel(writer, sheet_name='WP 1', index=False)
         data_processing(atmp.iloc[58:,:2]).to_excel(writer, sheet_name='Review Status Information', index=False)
         writer.close()
-        btn_single = st.download_button(
+        st.download_button(
                 label = 'Download as Excel',
                 data = buffer,
                 file_name = f'{atmp.iloc[ATMP_ID][1]}.xlsx',
