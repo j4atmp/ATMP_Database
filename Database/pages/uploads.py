@@ -36,11 +36,12 @@ st.markdown('''
     ''')
 
 # create list of current ATMP IDs
-Current_Atmps = set()
+Current_Atmps = []
 for chunk in all_dfs_chunks:
     if chunk.iloc[ATMP_ID][1] not in Current_Atmps:
-        Current_Atmps.add(chunk.iloc[ATMP_ID][1])
-
+        Current_Atmps.append(chunk.iloc[ATMP_ID][1])
+# sort list of current ATMP IDs
+Current_Atmps.sort()
 template = all_dfs_chunks[0]
 
 st.subheader('Cover Sheet Example (as Template)')
@@ -82,7 +83,7 @@ with col1:
         mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 with col2:
     if "vote1" not in st.session_state:
-        if st.button('ATMP Templates in Database'):
+        if st.button(':arrow_down: ATMP Templates in Database'):
             vote1()
         
 # Check for WP1 User
