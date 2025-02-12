@@ -37,6 +37,6 @@ if len(gtmps) > 0 :
     # create the coversheet for the selected GTMP
     for gtmp in gtmps:
         if option == str(gtmp.iloc[ATMP_ID][1]):
-            coversheet_creator(gtmp)
+            coversheet_creator(gtmp, conn, all_dfs_chunks)
 else:
     st.write('Nothing here yet!')

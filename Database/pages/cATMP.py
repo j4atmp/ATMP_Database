@@ -37,6 +37,6 @@ if len(catmps) > 0 :
     # create the coversheet for the selected catmp
     for catmp in catmps:
         if option == str(catmp.iloc[ATMP_ID][1]):
-            coversheet_creator(catmp)
+            coversheet_creator(catmp, conn, all_dfs_chunks)
 else:
     st.write('Nothing here yet!')

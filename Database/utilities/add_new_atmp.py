@@ -7,6 +7,7 @@ def upload_atmp(uploaded_files, Current_Atmps, all_dfs, template, conn):
     tmp_dfs_new_ATMPS = []
     tmp_all_dfs = all_dfs.copy()
     new_df = all_dfs.copy()
+    category_check = ['GTMP', 'TEP', 'sCTMP', 'cATMP']
 
     for uploaded_file in uploaded_files:
         data_upload = pd.read_excel(uploaded_file, header=None)

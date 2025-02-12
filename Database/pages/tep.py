@@ -37,6 +37,6 @@ if len(teps) > 0 :
     # create the coversheet for the selected TEP
     for tep in teps:
         if option == str(tep.iloc[ATMP_ID][1]):
-            coversheet_creator(tep)
+            coversheet_creator(tep, conn, all_dfs_chunks)
 else:
     st.write('Nothing here yet!')

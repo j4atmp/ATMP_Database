@@ -7,9 +7,11 @@ def update_atmp(uploaded_files, Current_Atmps, all_dfs, all_dfs_chunks, template
     tmp_dfs_update_ATMPS = []
     tmp_all_dfs_chunks = all_dfs_chunks.copy()
     tmp_all_dfs = all_dfs.copy()
+    category_check = ['GTMP', 'TEP', 'sCTMP', 'cATMP']
 
     for uploaded_file in uploaded_files:
         data_upload = pd.read_excel(uploaded_file, header=None)
+        st.write(data_upload)
         # check if there are less than two columns => no new content as column 1 are the fields
         if len(data_upload.columns) < 2:
             st.markdown(f'ATMP **:red[{uploaded_file.name}]** doesn`t contain content!')

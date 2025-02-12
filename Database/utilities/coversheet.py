@@ -2,13 +2,13 @@ import streamlit as st
 import io
 import pandas as pd
 import warnings
-from utilities import data_processing
+from utilities import data_processing, check_password
 
 warnings.filterwarnings('ignore')
 
 ATMP_ID = 1 # atmp.iloc[ATMP_ID][1] == ID_Value
 
-def coversheet_creator(atmp):
+def coversheet_creator(atmp, conn, all_dfs_chunks):
 
     st.title(atmp.iloc[ATMP_ID][1])
 
@@ -28,7 +28,7 @@ def coversheet_creator(atmp):
         )
 
     # Cover Sheet Tabs
-    tab1, tab2, tab3, tab4 = st.tabs(['ATMP Cover Sheet', 'Regulatory Information', 'WP 1', 'Review Status Information'])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(['ATMP Cover Sheet', 'Regulatory Information', 'WP 1', 'Review Status Information', 'Edit ATMP'])
 
     with tab1:
         # Tab for ATMP Cover Sheet
@@ -62,3 +62,35 @@ def coversheet_creator(atmp):
         # Display the dataframe
         st.dataframe(rs, hide_index=True)
 
+    with tab5:
+        # Check for WP1 User
+        if not check_password():
+            st.stop()
+
+        # create tmp df for atmp to edit
+        tmp_df = atmp.copy()
+        tmp_all_dfs_chunks = all_dfs_chunks.copy()
+        edited_df = atmp.copy()
+
+        # Tab for ATMP Cover Sheet
+        st.subheader('ATMP Cover Sheet')
+        edited_df.iloc[1:15] = st.data_editor(tmp_df.iloc[1:15], hide_index=True, use_container_width=True, height=458, disabled=[tmp_df.iloc[1:15].columns[0]])
+        # Tab for Regulatory Information
+        st.subheader('Regulatory Information')
+        edited_df.iloc[16:35] = st.data_editor(tmp_df.iloc[16:35], hide_index=True, use_container_width=True, height=458, disabled=[tmp_df.iloc[16:35].columns[0]])
+        # Tab for WP 1
+        st.subheader('WP 1')
+        edited_df.iloc[36:57] = st.data_editor(tmp_df.iloc[36:57], hide_index=True, use_container_width=True, height=458, disabled=[tmp_df.iloc[36:57].columns[0]])
+        # Tab for Review Status Information
+        st.subheader('Review Status Information')
+        edited_df.iloc[58:,:2] = st.data_editor(tmp_df.iloc[58:,:2], hide_index=True, use_container_width=True, height=458, disabled=[tmp_df.iloc[58:,:2].columns[0]])       
+        # update tmp chunks atmps
+        if st.button('Save changes and update ATMP'):
+            for index, chunk in enumerate(tmp_all_dfs_chunks):
+                if chunk.iloc[ATMP_ID][1] == edited_df.iloc[ATMP_ID][1]:
+                    tmp_all_dfs_chunks[index] = edited_df
+            # update current atmp_df
+            new_df = pd.concat(tmp_all_dfs_chunks, ignore_index=True)
+            # update masterfile
+            conn.update(data=new_df)
+            st.write("Update successful!")

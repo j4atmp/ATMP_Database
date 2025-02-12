@@ -37,6 +37,6 @@ if len(sctmps) > 0 :
     # create the coversheet for the selected sCTMP
     for sctmp in sctmps:
         if option == str(sctmp.iloc[ATMP_ID][1]):
-            coversheet_creator(sctmp)
+            coversheet_creator(sctmp, conn, all_dfs_chunks)
 else:
     st.write('Nothing here yet!')
