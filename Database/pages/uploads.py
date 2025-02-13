@@ -51,7 +51,7 @@ st.subheader('Cover Sheet Example (as Template)')
 #    - For updating exsiting ATMPs we suggest to download the current specific **ATMP Excel Template** from the Database.
 #    ''')
 
-@st.dialog("Cast your vote")
+@st.dialog("")
 def vote1():
     option = st.selectbox(
         "GTMP List",
@@ -82,9 +82,11 @@ with col1:
         file_name = 'ATMP_Cover_Sheet_Template.xlsx', 
         mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     st.markdown('''For uploading new ATMPs:
+
     1. Download the **Template Excel file**
     2. Edit template file contents according to new ATMP
     3. Upload the new ATMP Excel file
+
     ''')
 
 with col2:
@@ -92,9 +94,11 @@ with col2:
         if st.button(':arrow_down: ATMP Templates in Database'):
             vote1()
     st.markdown('''For updating exsiting ATMPs:
+
     1. Download the **specific** ATMP Excel file from the database 
     2. Edit the specific ATMP Excel file
-    3. Upload edited Excel file
+    3. Upload edited Excel file below
+
     ''')
 
         
@@ -109,10 +113,10 @@ st.subheader('Upload Options')
 #    - For updating exsiting ATMPs please use the **Update** button.
 #    ''')
 
-@st.dialog("Cast your vote")
+@st.dialog("")
 def vote2(item):
     uploaded_files = st.file_uploader(
-        "Choose an ATMP in the right Format (see Cover Sheet Example above)", 
+        "Choose an ATMP in the right Format (see Cover Sheet Example)", 
         accept_multiple_files=True,
         type = 'xlsx'
         )
@@ -125,13 +129,13 @@ col3, col4 = st.columns(2)
 
 if "vote2" not in st.session_state:
     with col3:
-        if st.button(':arrow_up: Upload new ATMPs'):
+        if st.button(':arrow_up: Upload new ATMP'):
             vote2('A')
-        st.markdown('''For uploading **new** ATMPs, use the **Upload** button''')
+        st.markdown('''To upload **new** ATMP''')
 
     with col4:
-        if st.button(':arrow_up: Update current ATMPs'):
+        if st.button(':arrow_up: Update ATMP'):
             vote2('B')
-        st.markdown('''For updating exsiting ATMPs, use the **Update** button''')
+        st.markdown('''To *update* exsiting ATMP''')
 
 
