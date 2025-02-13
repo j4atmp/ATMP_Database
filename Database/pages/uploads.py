@@ -21,7 +21,8 @@ all_dfs_chunks = [all_dfs.iloc[i:i + CHUNK_SIZE] for i in range(0, len(all_dfs),
 st.title('Upload ATMP-Sheet')
 # load the data
 
-st.markdown('''
+st.markdown(
+    """
     For uploading/updating ATMP-Sheets you should be member of WP1   
     If you are not member of WP1, there are two options:
         - Send your ATMP information (in Template Excel format) to j4atmp@gmail.com
@@ -31,7 +32,8 @@ st.markdown('''
     
     **:red[Please always use the Template Format and do not change it!!!]**
     
-    ''')
+    """
+    )
 
 # create list of current ATMP IDs
 Current_Atmps = []
@@ -49,7 +51,7 @@ st.subheader('Cover Sheet Example (as Template)')
 #    - For updating exsiting ATMPs we suggest to download the current specific **ATMP Excel Template** from the Database.
 #    ''')
 
-@st.dialog("")
+@st.dialog("Select")
 def vote1():
     option = st.selectbox(
         "GTMP List",
@@ -111,7 +113,7 @@ st.subheader('Upload Options')
 #    - For updating exsiting ATMPs please use the **Update** button.
 #    ''')
 
-@st.dialog("")
+@st.dialog("Select")
 def vote2(item):
     uploaded_files = st.file_uploader(
         "Choose an ATMP in the right Format (see Cover Sheet Example)", 
