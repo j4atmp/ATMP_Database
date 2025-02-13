@@ -22,14 +22,12 @@ st.title('Upload ATMP-Sheet')
 # load the data
 
 st.markdown('''
-    For uploading/updating ATMP-Sheets you need the WP1 User.   
-    If you don't have a WP1 User for login there are two options:
-            
-        1. send an Email with the ATMP* 
-        2. or send an Email to register for the WP1 User*
-    to j4atmp@gmail.com.
+    For uploading/updating ATMP-Sheets you should be member of WP1   
+    If you are not member of WP1, there are two options:
+        - Send your ATMP information (in Template Excel format) to j4atmp@gmail.com
+        - or send an Email to j4atmp@gmail.com. to recive login access
 
-    *In both cases you need to state your affiliation to J4ATMP and Personal Information.
+    *In both cases you need to state your affiliation to J4ATMP and institute affiliation
     
     **:red[Please always use the Template Format and do not change it!!!]**
     
@@ -51,13 +49,13 @@ st.subheader('Cover Sheet Example (as Template)')
 #    - For updating exsiting ATMPs we suggest to download the current specific **ATMP Excel Template** from the Database.
 #    ''')
 
-@st.dialog("Choose an ATMP")
+@st.dialog("")
 def vote1():
     option = st.selectbox(
         "GTMP List",
         options=Current_Atmps,
         index=None,
-        placeholder=""
+        placeholder="Choose an ATMP"
     )
     if option:
         for chunk in all_dfs_chunks:
@@ -113,10 +111,10 @@ st.subheader('Upload Options')
 #    - For updating exsiting ATMPs please use the **Update** button.
 #    ''')
 
-@st.dialog("Choose an ATMP")
+@st.dialog("")
 def vote2(item):
     uploaded_files = st.file_uploader(
-        "", 
+        "Choose an ATMP in the right Format (see Cover Sheet Example)", 
         accept_multiple_files=True,
         type = 'xlsx'
         )
