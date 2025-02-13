@@ -76,19 +76,27 @@ def vote1():
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown('''For uploading new ATMPs we suggest to download and use the **Template Excel file**''')
-
     with open(file, 'rb') as my_file:
         st.download_button(label = ':arrow_down: Download Template Excel file', 
         data = my_file, 
         file_name = 'ATMP_Cover_Sheet_Template.xlsx', 
         mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-with col2:
-    st.markdown('''for updating exsiting ATMPs we suggest to download the current specific **ATMP Excel Template** from the Database''')
+    st.markdown('''For uploading new ATMPs:
+    1. Download the **Template Excel file**
+    2. Edit template file contents according to new ATMP
+    3. Upload the new ATMP Excel file
+    ''')
 
+with col2:
     if "vote1" not in st.session_state:
         if st.button(':arrow_down: ATMP Templates in Database'):
             vote1()
+    st.markdown('''For updating exsiting ATMPs:
+    1. Download the **specific** ATMP Excel file from the database 
+    2. Edit the specific ATMP Excel file
+    3. Upload edited Excel file
+    ''')
+
         
 # Check for WP1 User
 if not check_password():
@@ -104,7 +112,7 @@ st.subheader('Upload Options')
 @st.dialog("Cast your vote")
 def vote2(item):
     uploaded_files = st.file_uploader(
-        "Choose an ATMP in the right Format (see Cover Sheet Example)", 
+        "Choose an ATMP in the right Format (see Cover Sheet Example above)", 
         accept_multiple_files=True,
         type = 'xlsx'
         )
@@ -117,13 +125,13 @@ col3, col4 = st.columns(2)
 
 if "vote2" not in st.session_state:
     with col3:
-        st.markdown('''For uploading new ATMPs please use the **Upload** button''')
-
         if st.button(':arrow_up: Upload new ATMPs'):
             vote2('A')
-    with col4:
-        st.markdown('''For updating exsiting ATMPs please use the **Update** button''')
+        st.markdown('''For uploading **new** ATMPs, use the **Upload** button''')
 
+    with col4:
         if st.button(':arrow_up: Update current ATMPs'):
             vote2('B')
+        st.markdown('''For updating exsiting ATMPs, use the **Update** button''')
+
 
