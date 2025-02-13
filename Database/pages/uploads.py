@@ -95,7 +95,7 @@ with col1:
 
 with col2:
     if "vote1" not in st.session_state:
-        if st.button(':arrow_down: Dwonload **specific** ATMP'):
+        if st.button(':arrow_down: Download **specific** ATMP'):
             vote1()
     st.markdown('''
     
@@ -138,11 +138,11 @@ if "vote2" not in st.session_state:
     with col3:
         if st.button(':arrow_up: Upload **new** ATMP'):
             vote2('A')
-        st.markdown('''to upload **new** ATMP ONLY''')
+        #st.markdown('''to upload **new** ATMP ONLY''')
 
     with col4:
         if st.button(':arrow_up: Update ATMP'):
             vote2('B')
-        st.markdown('''To **update** exsiting ATMP ONLY''')
+        #st.markdown('''To **update** exsiting ATMP ONLY''')
 
 
