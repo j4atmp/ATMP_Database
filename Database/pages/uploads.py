@@ -25,10 +25,11 @@ st.markdown(
     """
     For uploading/updating ATMP-Sheets you should be member of WP1   
     If you are not member of WP1, there are two options:
-        - Send your ATMP information (in Template Excel format) to j4atmp@gmail.com
-        - or send an Email to j4atmp@gmail.com. to recive login access
+    
+    - Send your ATMP information (in Template Excel format) to j4atmp@gmail.com
+    - or send an Email to j4atmp@gmail.com. to recive login access
 
-    *In both cases you need to state your affiliation to J4ATMP and institute affiliation
+    *State your institute affiliation in your email
     
     **:red[Please always use the Template Format and do not change it!!!]**
     
