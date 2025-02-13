@@ -7,6 +7,7 @@ from utilities import data_processing, check_password
 warnings.filterwarnings('ignore')
 
 ATMP_ID = 1 # atmp.iloc[ATMP_ID][1] == ID_Value
+category_check = ['GTMP', 'TEP', 'sCTMP', 'cATMP']
 
 def coversheet_creator(atmp, conn, all_dfs_chunks):
 
@@ -86,11 +87,16 @@ def coversheet_creator(atmp, conn, all_dfs_chunks):
         edited_df.iloc[58:,:2] = st.data_editor(tmp_df.iloc[58:,:2], hide_index=True, use_container_width=True, height=458, disabled=[tmp_df.iloc[58:,:2].columns[0]])       
         # update tmp chunks atmps
         if st.button('Save changes and update ATMP'):
-            for index, chunk in enumerate(tmp_all_dfs_chunks):
-                if chunk.iloc[ATMP_ID][1] == edited_df.iloc[ATMP_ID][1]:
-                    tmp_all_dfs_chunks[index] = edited_df
-            # update current atmp_df
-            new_df = pd.concat(tmp_all_dfs_chunks, ignore_index=True)
-            # update masterfile
-            conn.update(data=new_df)
-            st.write("Update successful!")
+            if edited_df.iloc[14][1] in category_check:
+                for index, chunk in enumerate(tmp_all_dfs_chunks):
+                    
+                    if chunk.iloc[ATMP_ID][1] == edited_df.iloc[ATMP_ID][1]:
+                        tmp_all_dfs_chunks[index] = edited_df
+                # update current atmp_df
+                new_df = pd.concat(tmp_all_dfs_chunks, ignore_index=True)
+                # update masterfile
+                conn.update(data=new_df)
+                st.write("Update successful!")
+            else:
+                st.write(f'**:red[Changes of ATMP do not contain a right ATMP category {category_check}]**')
+            

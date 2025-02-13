@@ -16,13 +16,16 @@ def upload_atmp(uploaded_files, Current_Atmps, all_dfs, template, conn):
             st.markdown(f'ATMP **:red[{uploaded_file.name}]** doesn`t contain content!')
         # check if all fileds are the same and in the same order as in the template
         elif [s.rstrip() for s in list(data_upload[0])] == [s.rstrip() for s in list(template['FIELDS'])]:
-            st.markdown(f'**:green[{uploaded_file.name}]** no Errors found!')
-            # check if the ATMPs are already in the master file
-            if data_upload.iloc[ATMP_ID][1] not in Current_Atmps:
-                # load uploaded files into tmp list
-                tmp_dfs_new_ATMPS.append(data_upload)
+            if data_upload.iloc[14][1] in category_check:
+                st.markdown(f'**:green[{uploaded_file.name}]** no Errors found!')
+                # check if the ATMPs are already in the master file
+                if data_upload.iloc[ATMP_ID][1] not in Current_Atmps:
+                    # load uploaded files into tmp list
+                    tmp_dfs_new_ATMPS.append(data_upload)
+                else:
+                    st.markdown(f'ATMP **:red[{uploaded_file.name}]** already exists! Please use Update!') 
             else:
-                st.markdown(f'ATMP **:red[{uploaded_file.name}]** already exists! Please use Update!') 
+                st.write(f'**:red[{uploaded_file.name}]** does not contain a right ATMP category {category_check}')
         else:
             st.markdown(f'File format for **:red[{uploaded_file.name}]** is **not correct**! Please check with Cover Sheet Example!') 
 
