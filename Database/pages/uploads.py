@@ -86,9 +86,9 @@ with col1:
     '''
     For uploading new ATMPs:
 
-    1. Download the **Template Excel file**
-    2. Edit template file contents according to new ATMP
-    3. Upload the new ATMP Excel file
+    1. Download **Template Excel file**
+    2. Edit file with new ATMP info
+    3. Upload edited file
 
     '''
     )
