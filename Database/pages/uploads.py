@@ -51,13 +51,13 @@ st.subheader('Cover Sheet Example (as Template)')
 #    - For updating exsiting ATMPs we suggest to download the current specific **ATMP Excel Template** from the Database.
 #    ''')
 
-@st.dialog("")
+@st.dialog("Choose an ATMP")
 def vote1():
     option = st.selectbox(
         "GTMP List",
         options=Current_Atmps,
         index=None,
-        placeholder="Choose an ATMP"
+        placeholder=""
     )
     if option:
         for chunk in all_dfs_chunks:
@@ -113,10 +113,10 @@ st.subheader('Upload Options')
 #    - For updating exsiting ATMPs please use the **Update** button.
 #    ''')
 
-@st.dialog("")
+@st.dialog("Choose an ATMP")
 def vote2(item):
     uploaded_files = st.file_uploader(
-        "Choose an ATMP in the right Format (see Cover Sheet Example)", 
+        "", 
         accept_multiple_files=True,
         type = 'xlsx'
         )
