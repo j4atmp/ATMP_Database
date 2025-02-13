@@ -82,25 +82,31 @@ with col1:
         data = my_file, 
         file_name = 'ATMP_Cover_Sheet_Template.xlsx', 
         mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    st.markdown('''For uploading new ATMPs:
+    st.markdown(
+    '''
+    For uploading new ATMPs:
 
     1. Download the **Template Excel file**
     2. Edit template file contents according to new ATMP
     3. Upload the new ATMP Excel file
 
-    ''')
+    '''
+    )
 
 with col2:
     if "vote1" not in st.session_state:
         if st.button(':arrow_down: ATMP Templates in Database'):
             vote1()
-    st.markdown('''For updating exsiting ATMPs:
+    st.markdown('''
+    
+    For updating exsiting ATMPs:
 
-    1. Download the **specific** ATMP Excel file from the database 
-    2. Edit the specific ATMP Excel file
-    3. Upload edited Excel file below
+    1. Download **specific** ATMP Excel file
+    2. Edit ATMP Excel file
+    3. Upload edited file
 
-    ''')
+    '''
+    )
 
         
 # Check for WP1 User
