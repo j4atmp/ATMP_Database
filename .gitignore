@@ -173,5 +173,6 @@ secrets.toml
 google.auth
 google_drive_secrets.json
 token.json
-ATMP Sheets
 google_cloud_secrets.json
+# ATMP Sheets
+ATMP Sheets/
