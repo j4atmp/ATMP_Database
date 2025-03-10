@@ -9,6 +9,14 @@ warnings.filterwarnings('ignore')
 ATMP_ID = 1 # atmp.iloc[ATMP_ID][1] == ID_Value
 category_check = ['GTMP', 'TEP', 'sCTMP', 'cATMP']
 
+# Generate column config for all text columns
+def wrap_text(df):
+    styled_df = df.style.set_properties(**{
+    'white-space': 'normal',
+    'word-wrap': 'break-word'
+    })
+    return styled_df
+
 def coversheet_creator(atmp, conn, all_dfs_chunks):
 
     st.title(atmp.iloc[ATMP_ID][1])
@@ -28,6 +36,8 @@ def coversheet_creator(atmp, conn, all_dfs_chunks):
                 mime='application/vnd.ms-excel'
         )
 
+    
+
     # Cover Sheet Tabs
     tab1, tab2, tab3, tab4, tab5 = st.tabs(['ATMP Cover Sheet', 'Regulatory Information', 'WP 1', 'Review Status Information', 'Edit ATMP'])
 
@@ -37,7 +47,7 @@ def coversheet_creator(atmp, conn, all_dfs_chunks):
         # Process rows 1 to 13 in the atmp dataframe
         cs = data_processing(atmp.iloc[1:14])
         # Display the dataframe
-        st.dataframe(cs, hide_index=True, use_container_width=True, height=458)
+        st.markdown(cs.style.hide(axis="index").to_html(), unsafe_allow_html=True)
 
     with tab2:
         # Tab for Regulatory Information
@@ -45,7 +55,7 @@ def coversheet_creator(atmp, conn, all_dfs_chunks):
         # Process rows 16 to 34 in the atmp dataframe
         ri = data_processing(atmp.iloc[16:35])
         # Display the dataframe
-        st.dataframe(ri, hide_index=True, use_container_width=True, height=668)
+        st.markdown(ri.style.hide(axis="index").to_html(), unsafe_allow_html=True)
 
     with tab3:
         # Tab for WP 1
@@ -53,7 +63,7 @@ def coversheet_creator(atmp, conn, all_dfs_chunks):
         # Process rows 38 to 56 in the atmp dataframe
         wp1 = data_processing(atmp.iloc[36:57])
         # Display the dataframe
-        st.dataframe(wp1, hide_index=True, use_container_width=True, height=773)
+        st.markdown(wp1.style.hide(axis="index").to_html(), unsafe_allow_html=True)
 
     with tab4:
         # Tab for Review Status Information
@@ -61,7 +71,7 @@ def coversheet_creator(atmp, conn, all_dfs_chunks):
         # Process rows 58 and 59 in the atmp dataframe
         rs = data_processing(atmp.iloc[58:,:2])
         # Display the dataframe
-        st.dataframe(rs, hide_index=True)
+        st.markdown(rs.style.hide(axis="index").to_html(), unsafe_allow_html=True)
 
     with tab5:
         # Check for WP1 User
