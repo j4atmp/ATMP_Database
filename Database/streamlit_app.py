@@ -14,5 +14,5 @@ help_page = st.Page("pages/help_page.py", title="Help", icon=":material/help:")
 upload_page = st.Page("pages/uploads.py", title="Upload", icon=":material/upload:")
 
 pg = st.navigation([title_page, gtmp, tep, sCTMP, cATMP, search_page, download_page,upload_page, help_page])
-st.set_page_config(page_title="ATMP Database", page_icon=":material/menu:")
+st.set_page_config(layout="wide",page_title="ATMP Database", page_icon=":material/menu:")
 pg.run()
