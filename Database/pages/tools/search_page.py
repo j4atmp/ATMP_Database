@@ -23,6 +23,7 @@ options_wp1 = list(all_dfs_chunks[0]['FIELDS'][36:57])
 options_rsi = list(all_dfs_chunks[0]['FIELDS'][58:])
 
 options = options_cs + options_ri + options_wp1 + options_rsi
+options.sort()
 
 st.title('Search')
 
@@ -40,28 +41,32 @@ if option:
         for col in chunk[chunk['FIELDS']==option].columns:
             if col == 'FIELDS':
                 continue
-            for unique_value in chunk[chunk['FIELDS']==option][col].unique():
+            for unique_value in chunk[chunk['FIELDS']==option][col]:
                 if pd.notna(unique_value):
-                    for i in unique_value.split(', '):
-                        if i.rstrip() not in tmp:
-                            tmp.append(i.rstrip())
+                    if option == 'Study title' or option == 'Animal studies':
+                        if unique_value not in tmp:
+                            tmp.append(unique_value)
+                    else:
+                        for i in unique_value.split(', '):
+                            if i.rstrip() not in tmp:
+                                tmp.append(i.rstrip())
+    if len(tmp) == 0:
+        st.write('No Entries in this Category found!')
+    else:
+        option2 = st.selectbox(
+        "Availabel Options",
+        options=tmp,
+        index=None,
+        placeholder="Choose a Field to search")
 
-
-    option2 = st.selectbox(
-    "Availabel Options",
-    options=tmp,
-    index=None,
-    placeholder="Choose a Field to search")
-
-    
-   
-
-    if option2:
-        found_atmps = []
-        for chunk in all_dfs_chunks:
-            tmp_2 = [i for i in chunk[chunk['FIELDS']==option].iloc[0][1:] if pd.notna(i)]
-            if option2 in tmp_2[0]:
-                found_atmps.append((chunk.iloc[1][1], chunk.iloc[ATMP_CATEGORY][1]))
-        st.subheader(f'Found {len(found_atmps)} ATMPs with specified values')
-        for value in found_atmps:
-            st.write(value[0], '| ATMP Category:', value[1])
+        if option2:
+            found_atmps = {'ATMPs': [], 'ATMP Category':[]}
+            for chunk in all_dfs_chunks:
+                tmp_2 = [i for i in chunk[chunk['FIELDS']==option].iloc[0][1:] if pd.notna(i)]
+                if len(tmp_2) == 0:
+                    continue
+                if option2 in '; '.join(tmp_2):
+                    found_atmps['ATMPs'].append(chunk.iloc[1][1])
+                    found_atmps['ATMP Category'].append(chunk.iloc[ATMP_CATEGORY][1])
+            st.subheader(f'Found {len(found_atmps["ATMPs"])} ATMPs with specified values')
+            st.dataframe(found_atmps)
