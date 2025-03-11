@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from utilities import coversheet_creator
 from streamlit_gsheets import GSheetsConnection
 import warnings
 warnings.filterwarnings("ignore")
@@ -60,13 +61,18 @@ if option:
         placeholder="Choose a Field to search")
 
         if option2:
-            found_atmps = {'ATMPs': [], 'ATMP Category':[]}
+            found_atmps = []
             for chunk in all_dfs_chunks:
                 tmp_2 = [i for i in chunk[chunk['FIELDS']==option].iloc[0][1:] if pd.notna(i)]
                 if len(tmp_2) == 0:
                     continue
                 if option2 in '; '.join(tmp_2):
-                    found_atmps['ATMPs'].append(chunk.iloc[1][1])
-                    found_atmps['ATMP Category'].append(chunk.iloc[ATMP_CATEGORY][1])
-            st.subheader(f'Found {len(found_atmps["ATMPs"])} ATMPs with specified values')
-            st.dataframe(found_atmps)
+                    found_atmps.append(chunk.iloc[1][1] + ' | '+ chunk.iloc[ATMP_CATEGORY][1])
+            st.subheader(f'Found {len(found_atmps)} ATMPs with specified values')
+            selection = st.segmented_control(
+                'To see data select ATMP', found_atmps)
+            if selection:
+                for chunk in all_dfs_chunks:
+                    if chunk.iloc[1][1] in selection:
+                        coversheet_creator(chunk, conn, all_dfs_chunks)
+               
