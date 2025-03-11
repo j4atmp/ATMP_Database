@@ -51,6 +51,11 @@ if option:
                     if option == 'Study title' or option == 'Animal studies':
                         if unique_value not in tmp:
                             tmp.append(unique_value)
+                    elif option == 'Trial Status':
+                        if 'ongoing' in unique_value.lower() and 'Ongoing' not in tmp:
+                            tmp.append('Ongoing')
+                        elif 'completed' in unique_value.lower() and 'Completed' not in tmp:
+                            tmp.append('Completed')
                     else:
                         for i in unique_value.split(', '):
                             if i.rstrip() not in tmp:
@@ -70,8 +75,11 @@ if option:
                 tmp_2 = [i for i in chunk[chunk['FIELDS']==option].iloc[0][1:] if pd.notna(i)]
                 if len(tmp_2) == 0:
                     continue
-                if option2 in '; '.join(tmp_2):
+                elif option2 in '; '.join(tmp_2):
                     found_atmps.append(chunk.iloc[1][1] + ' | '+ chunk.iloc[ATMP_CATEGORY][1])
+                elif option2 == 'Ongoing' or option2 =='Completed':
+                    if option2.lower() in '; '.join(tmp_2):
+                        found_atmps.append(chunk.iloc[1][1] + ' | '+ chunk.iloc[ATMP_CATEGORY][1])
             st.subheader(f'Found {len(found_atmps)} ATMPs with specified values')
             selection = st.segmented_control(
                 'To see data select ATMP', found_atmps)
