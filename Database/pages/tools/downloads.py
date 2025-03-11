@@ -5,8 +5,8 @@ import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from utilities import data_processing
 
-CHUNK_SIZE = 60
-ATMP_CATEGORY = 14 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
+CHUNK_SIZE = 59
+ATMP_CATEGORY = 13 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
 
 # connect to Master sheet on Google Drive
@@ -40,9 +40,9 @@ if options == 'All':
         # create Excels
         with pd.ExcelWriter(f'downloads_excel/all_dfs_excel/{category}/{atmp.iloc[ATMP_ID][1]}.xlsx') as writer:  
             data_processing(atmp.iloc[1:14]).to_excel(writer, sheet_name='ATMP Cover Sheet', index=False)
-            data_processing(atmp.iloc[16:35]).to_excel(writer, sheet_name='Regulatory Information', index=False)
-            data_processing(atmp.iloc[36:57]).to_excel(writer, sheet_name='WP 1', index=False)
-            data_processing(atmp.iloc[58:,:2]).to_excel(writer, sheet_name='Review Status Information', index=False)
+            data_processing(atmp.iloc[15:34]).to_excel(writer, sheet_name='Regulatory Information', index=False)
+            data_processing(atmp.iloc[35:56]).to_excel(writer, sheet_name='WP 1', index=False)
+            data_processing(atmp.iloc[57:,:2]).to_excel(writer, sheet_name='Review Status Information', index=False)
             writer.close()
     # create Zip
     shutil.make_archive('downloads_excel/all_dfs_excel'.replace('.zip', ''), 'zip', 'downloads_excel/all_dfs_excel')
@@ -72,9 +72,9 @@ elif options != 'All' and options != 'sCTMP' and options != 'cATMP':
     for atmp in tmp_atmps:
         with pd.ExcelWriter(f'downloads_excel/{cat}/{atmp.iloc[ATMP_ID][1]}.xlsx') as writer:  
             data_processing(atmp.iloc[1:14]).to_excel(writer, sheet_name='ATMP Cover Sheet', index=False)
-            data_processing(atmp.iloc[16:35]).to_excel(writer, sheet_name='Regulatory Information', index=False)
-            data_processing(atmp.iloc[36:57]).to_excel(writer, sheet_name='WP 1', index=False)
-            data_processing(atmp.iloc[58:,:2]).to_excel(writer, sheet_name='Review Status Information', index=False)
+            data_processing(atmp.iloc[15:34]).to_excel(writer, sheet_name='Regulatory Information', index=False)
+            data_processing(atmp.iloc[35:56]).to_excel(writer, sheet_name='WP 1', index=False)
+            data_processing(atmp.iloc[57:,:2]).to_excel(writer, sheet_name='Review Status Information', index=False)
             writer.close()
     # create Zip
     shutil.make_archive(f'downloads_excel/{cat}'.replace('.zip', ''), 'zip', f'downloads_excel/{cat}')

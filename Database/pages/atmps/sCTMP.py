@@ -2,8 +2,8 @@ import streamlit as st
 from utilities import coversheet_creator
 from streamlit_gsheets import GSheetsConnection
 
-CHUNK_SIZE = 60
-ATMP_CATEGORY = 14 # chunk.iloc[ATMP_CATEGORY][1] == Category_Value
+CHUNK_SIZE = 59
+ATMP_CATEGORY = 13 # chunk.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # sctmp.iloc[ATMP_ID][1] == ID_Value
 sctmps = []
 

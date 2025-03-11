@@ -16,7 +16,7 @@ def update_atmp(uploaded_files, Current_Atmps, all_dfs, all_dfs_chunks, template
             st.markdown(f'ATMP **:red[{uploaded_file.name}]** doesn`t contain content!')
         # check if all fileds are the same and in the same order as in the template
         elif [s.rstrip() for s in list(data_upload[0])] == [s.rstrip() for s in list(template['FIELDS'])]:
-            if data_upload.iloc[14][1] in category_check:
+            if data_upload.iloc[13][1] in category_check:
                 st.markdown(f'**:green[{uploaded_file.name}]** no Errors found!')
                 # check if the ATMPs are already in the master file
                 if data_upload.iloc[ATMP_ID][1] in Current_Atmps:

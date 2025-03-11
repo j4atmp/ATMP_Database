@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 
-CHUNK_SIZE = 60
-ATMP_CATEGORY = 14 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
+CHUNK_SIZE = 59
+ATMP_CATEGORY = 13 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
 
 # connect to Master sheet on Google Drive

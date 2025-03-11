@@ -5,8 +5,8 @@ from streamlit_gsheets import GSheetsConnection
 import warnings
 warnings.filterwarnings("ignore")
 
-CHUNK_SIZE = 60
-ATMP_CATEGORY = 14 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
+CHUNK_SIZE = 59
+ATMP_CATEGORY = 13 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
 
 # connect to Master sheet on Google Drive
@@ -18,12 +18,16 @@ all_dfs = df_master.copy()
 # create chunks with size 60
 all_dfs_chunks = [all_dfs.iloc[i:i + CHUNK_SIZE] for i in range(0, len(all_dfs), CHUNK_SIZE)]
 
-options_cs = list(all_dfs_chunks[0]['FIELDS'][1:14])
-options_ri = list(all_dfs_chunks[0]['FIELDS'][16:35])
-options_wp1 = list(all_dfs_chunks[0]['FIELDS'][36:57])
-options_rsi = list(all_dfs_chunks[0]['FIELDS'][58:])
+options_cs = list(all_dfs_chunks[0]['FIELDS'][1:13])
+options_ri = list(all_dfs_chunks[0]['FIELDS'][15:34])
+options_wp1 = list(all_dfs_chunks[0]['FIELDS'][35:56])
+options_rsi = list(all_dfs_chunks[0]['FIELDS'][57:2])
 
-options = options_cs + options_ri + options_wp1 + options_rsi
+options_raw = options_cs + options_ri + options_wp1 + options_rsi
+options = []
+for i in options_raw:
+    if i not in options:
+        options.append(i)
 options.sort()
 
 st.title('Search')

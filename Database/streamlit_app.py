@@ -14,7 +14,7 @@ cATMP = st.Page("pages/atmps/cATMP.py", title="cATMP", icon=":material/dataset:"
 # tools
 search_page = st.Page("pages/tools/search_page.py", title="Search", icon=":material/search:")
 download_page = st.Page("pages/tools/downloads.py", title="Download", icon=":material/download:")
-upload_page = st.Page("pages/tools/uploads.py", title="Upload", icon=":material/upload:")
+upload_page = st.Page("pages/uploads.py", title="Upload", icon=":material/upload:")
 
 pg = st.navigation(
     {
