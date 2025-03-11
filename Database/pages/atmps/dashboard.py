@@ -15,7 +15,7 @@ all_dfs = df_master.copy()
 # create chunks with size 60
 all_dfs_chunks = [all_dfs.iloc[i:i + CHUNK_SIZE] for i in range(0, len(all_dfs), CHUNK_SIZE)]
 
-st.title('ATMP-Dashboard')
+st.title('Overview')
 
 statistics = {'Amount of ATMPs' : {'GTMP' : 0,
                                    'TEP' : 0,
@@ -39,5 +39,6 @@ for chunk in all_dfs_chunks:
 atmps_df = pd.DataFrame.from_dict(statistics['Amount of ATMPs'], orient='index')
 
 
-st.subheader(f"Amount of ATMPs : {statistics['Amount of ATMPs']['TOTAL']}")
-st.bar_chart(atmps_df.iloc[0:4])
+st.subheader(f"Number of ATMPs in Database : {statistics['Amount of ATMPs']['TOTAL']}")
+st.write("Last update: 2025.03.10 (To Mathias: write a script to insert the date here. The date should dynamically update from the last excel file modification date.)")
+st.bar_chart(atmps_df.iloc[0:4], horizontal=True)

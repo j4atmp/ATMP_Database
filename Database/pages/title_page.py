@@ -3,8 +3,10 @@ import os
 
 path_logo = os.path.join(os.getcwd(),"Database/pages", "logo.png")
 
-st.title('ATMP-Database')
+st.image(path_logo, width=400)
 
-st.image(path_logo, width=800)
-
-st.link_button("J4ATMP Homepage", 'https://join4atmp.eu/')
+st.title('ATMP Database')
+st.write(
+"""
+This web app is developed by the Medical University of Vienna as part of [J4ATMP Homepage](https://join4atmp.eu/) consortium. 
+""")

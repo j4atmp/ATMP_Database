@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(layout="wide",page_title="ATMP Database", page_icon=":material/menu:")
+st.set_page_config(layout="centered",page_title="ATMP Database", page_icon=":material/menu:")
 
 
 title_page = st.Page("pages/title_page.py", title="Home", icon=":material/home:")
