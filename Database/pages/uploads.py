@@ -8,7 +8,6 @@ CHUNK_SIZE = 59
 ATMP_CATEGORY = 13 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
 file = 'Database/pages/tools/ATMP_Cover_Sheet_Template.xlsx'
-# template = pd.read_excel(file, header=None)
 
 # connect to Master sheet on Google Drive
 conn = st.connection("gsheets", type=GSheetsConnection)
@@ -26,8 +25,10 @@ st.markdown(
     For uploading/updating ATMP-Sheets you should be member of WP1   
     If you are not member of WP1, there are two options:
 
-    - send ATMP data (in Template Excel format) to j4atmp@gmail.com
-    - or send an Email to j4atmp@gmail.com to recive login access
+    - send ATMP data (in Template Excel format)* 
+    - or send an Email to recive login access*
+    
+    *contact: [Nara Marella or Mathias Mayrgündter](https://join4atmp.eu/partners/muv)
 
     include your institute affiliation in email
     
