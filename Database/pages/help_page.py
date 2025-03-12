@@ -1,9 +1,19 @@
 import streamlit as st
 
 st.title('User Guide')
-st.write("To Mathias: 1. expand cATMP, gTMP, SCTMP etc.. in bullet points here. Next, insert some screenshots to do basic operations in the web app here")
+
+st.markdown(
+    """
+    - GTMP = Gene Therapy Medicinal Products
+    - TEP = Tissue Engineered Products
+    - sCTMP = Somatic Cell Therapy Medicinal Products
+    - cATMP = Combined ATMPs
+    """
+    )
+st.write("insert some screenshots to do basic operations in the web app here")
 
 st.title('Contact')
+
 st.markdown(
     """
     Visit: [J4ATMP MUV Contacts](https://join4atmp.eu/partners/muv)

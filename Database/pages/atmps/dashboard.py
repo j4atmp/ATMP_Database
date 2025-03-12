@@ -8,7 +8,7 @@ CHUNK_SIZE = 59
 ATMP_CATEGORY = 13 # atmp.iloc[ATMP_CATEGORY][1] == Category_Value
 ATMP_ID = 1  # atmp.iloc[ATMP_ID][1] == ID_Value
 
-# Get Last upadet
+# Get Last modification of Master Sheet
 # Load secrets
 secrets = st.secrets["gsheets"]
 # Create credentials from secrets
